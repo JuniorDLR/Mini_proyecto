@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 
 class DirectoryEntryAdapter (
     private val clickListeners: ClickListeners
-) : RecyclerView.Adapter<DirectoryEntryAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<DirectoryEntryAdapter.ViewHolder>()  { //cargar vista
 
-    private val directoryEntries = mutableListOf<CachingDocumentFile>()
+    private val directoryEntries = mutableListOf<CachingDocumentFile>() //vista de los documentos
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.directory_item, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view) //obtener una colección de archivos del documento.
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
@@ -28,7 +28,7 @@ class DirectoryEntryAdapter (
                 R.drawable.ic_file_black_24dp
             }
 
-            fileName.text = item.name
+            fileName.text = item.name  //lo que se guarda en nombre y tipo
             mimeType.text = item.type ?: ""
             imageView.setImageResource(itemDrawableRes)
 
@@ -42,9 +42,9 @@ class DirectoryEntryAdapter (
         }
     }
 
-    override fun getItemCount() = directoryEntries.size
+    override fun getItemCount() = directoryEntries.size //cantidad de directorios
 
-    fun setEntries(newList: List<CachingDocumentFile>) {
+    fun setEntries(newList: List<CachingDocumentFile>) { //se anaden el direcotrio
         synchronized(directoryEntries) {
             directoryEntries.clear()
             directoryEntries.addAll(newList)
