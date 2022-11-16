@@ -51,7 +51,6 @@ class DirectoryEntryAdapter (
             notifyDataSetChanged()
         }
     }
-
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */

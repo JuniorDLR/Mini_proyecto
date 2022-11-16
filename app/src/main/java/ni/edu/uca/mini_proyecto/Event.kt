@@ -4,10 +4,9 @@ package ni.edu.uca.mini_proyecto
 open class Event<out T>(private val content: T) {
 
     var hasBeenHandled = false
-        private set // Allow external read but not write
-
+        private set // Permitir lectura externa pero no escritura
     /**
-     * Returns the content and prevents its use again.
+     * Devuelve el contenido e impide su uso nuevamente.
      */
     fun getContentIfNotHandled(): T? {
         return if (hasBeenHandled) {
@@ -19,7 +18,7 @@ open class Event<out T>(private val content: T) {
     }
 
     /**
-     * Returns the content, even if it's already been handled.
+     * Devuelve el contenido, incluso si ya ha sido manipulado.
      */
     fun peekContent(): T = content
 }
