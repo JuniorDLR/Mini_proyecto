@@ -10,6 +10,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
+/**
+ * ViewModel para el [DirectoryFragment].
+ */
+
 class DirectoryFragmentViewModel(application: Application) : AndroidViewModel(application) {
     private val _documents = MutableLiveData<List<CachingDocumentFile>>()
     val documents = _documents
@@ -24,9 +29,9 @@ class DirectoryFragmentViewModel(application: Application) : AndroidViewModel(ap
         val documentsTree = DocumentFile.fromTreeUri(getApplication(), directoryUri) ?: return
         val childDocuments = documentsTree.listFiles().toCachingList()
 
-        // It's much nicer when the documents are sorted by something, so we'll sort the documents
-        // we got by name. Unfortunate there may be quite a few documents, and sorting can take
-        // some time, so we'll take advantage of coroutines to take this work off the main thread.
+        // Es mucho mejor cuando los documentos están ordenados por algo, así que ordenaremos los documentos
+        // tenemos por nombre. Desafortunadamente, puede haber bastantes documentos, y la clasificación puede llevar
+        // algo de tiempo, así que aprovecharemos las corrutinas para eliminar este trabajo del hilo principal.
         viewModelScope.launch {
             val sortedDocuments = withContext(Dispatchers.IO) {
                 childDocuments.toMutableList().apply {
@@ -36,11 +41,11 @@ class DirectoryFragmentViewModel(application: Application) : AndroidViewModel(ap
             _documents.postValue(sortedDocuments)
         }
     }
-
     /**
-     * Method to dispatch between clicking on a document (which should be opened), and
-     * a directory (which the user wants to navigate into).
+     * Método para enviar entre hacer clic en un documento (que debe estar abierto), y
+     * un directorio (al que el usuario quiere navegar).
      */
+
     fun documentClicked(clickedDocument: CachingDocumentFile) {
         if (clickedDocument.isDirectory) {
             openDirectory.postValue(Event(clickedDocument))

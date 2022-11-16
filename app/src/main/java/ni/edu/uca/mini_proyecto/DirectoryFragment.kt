@@ -19,6 +19,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+
+
+
+/**
+ * Fragmento que muestra una lista de documentos en un directorio.
+ */
+
 class DirectoryFragment : Fragment() {
     private lateinit var directoryUri: Uri
 
@@ -33,7 +40,7 @@ class DirectoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         directoryUri = arguments?.getString(ARG_DIRECTORY_URI)?.toUri()
-            ?: throw IllegalArgumentException("Must pass URI of directory to open")
+            ?: throw IllegalArgumentException("Debe pasar la URI del directorio para abrir")
 
 
 
@@ -101,13 +108,13 @@ class DirectoryFragment : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun renameDocument(document: CachingDocumentFile) {
-        // Normally we don't want to pass `null` in as the parent, but the dialog doesn't exist,
-        // so there isn't a parent layout to use yet.
+        // Normalmente no queremos pasar `null` como padre, pero el diálogo no existe,
+        // por lo que aún no hay un diseño principal para usar.
         val dialogView = layoutInflater.inflate(R.layout.rename_layout, null)
         val editText = dialogView.findViewById<EditText>(R.id.file_name)
         editText.setText(document.name)
 
-        // Use a lambda so that we have access to the [EditText] with the new name.
+         // Usa una lambda para que tengamos acceso al [EditText] con el nuevo nombre.
         val buttonCallback: (DialogInterface, Int) -> Unit = { _, buttonId ->
             when (buttonId) {
                 DialogInterface.BUTTON_POSITIVE -> {
@@ -115,7 +122,7 @@ class DirectoryFragment : Fragment() {
                     if (newName.isNotBlank()) {
                         document.rename(newName)
 
-                        // The easiest way to refresh the UI is to load the directory again.
+                        // La forma más fácil de actualizar la interfaz de usuario es cargar el directorio nuevamente.
                         viewModel.loadDirectory(directoryUri)
                     }
                 }
@@ -128,8 +135,7 @@ class DirectoryFragment : Fragment() {
             .setPositiveButton(R.string.rename_okay, buttonCallback)
             .setNegativeButton(R.string.rename_cancel, buttonCallback)
             .create()
-
-        // When the dialog is shown, select the name so it can be easily changed.
+// Cuando se muestre el cuadro de diálogo, seleccione el nombre para que pueda cambiarse fácilmente.
         renameDialog.setOnShowListener {
             editText.requestFocus()
             editText.selectAll()
@@ -140,10 +146,7 @@ class DirectoryFragment : Fragment() {
 
     companion object {
 
-        /**
-         * Convenience method for constructing a [DirectoryFragment] with the directory uri
-         * to display.
-         */
+
         @JvmStatic
         fun newInstance(directoryUri: Uri) =
             DirectoryFragment().apply {
