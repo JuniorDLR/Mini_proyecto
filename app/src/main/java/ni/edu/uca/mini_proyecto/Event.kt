@@ -17,6 +17,11 @@ open class Event<out T>(private val content: T) {
         }
     }
 
+
+
+
+
+
     /**
      * Devuelve el contenido, incluso si ya ha sido manipulado.
      */
